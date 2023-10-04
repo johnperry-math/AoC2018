@@ -1,0 +1,10 @@
+name = "day1"
+description = "Advent of Code 2018, Day 1"
+version = "0.1.0-dev"
+
+authors = ["John Perry"]
+maintainers = ["John Perry <devotus@yahoo.com>"]
+maintainers-logins = ["johnperry-math"]
+licenses = "GPL-3.0-or-later"
+website = ""
+tags = ["advent-of-code", "2018", "ada"]
