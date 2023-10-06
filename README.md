@@ -317,6 +317,29 @@ Nothing else I'm not used to by know.
 
 I'd like to do this eventually, but I haven't done it yet.
 
+### Day 14: Chocolate Charts
+
+Elves are making chocolate and are scoring recipes, which recombine.
+The scores range from 0 to 9.
+
+1. What are the ten recipe scores once you make the number of recipes
+   in the puzzle input?
+1. How many recipes must be made before they arrive at a sequence of recipes
+   whose digits are precisely those of the puzzle input?
+
+Don't ask me why they don't quit once they attain a score of 9.
+
+#### Tools
+Nothing special.
+
+#### Experience
+Not too hard. I misread the question in Part 1, so I tried the example, but
+of course that didn't help, so I read some commentary online.
+Someone mentioned getting a very wrong answer when using the puzzle input
+as the first recipes, and go figure, that was precisely my problem.
+
+I thought Part 2 would be harder than it turned out to be.
+
 ## Days I completed only after doing the example first
 
 None yet!
