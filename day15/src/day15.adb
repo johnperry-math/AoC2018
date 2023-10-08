@@ -13,8 +13,10 @@
 pragma Ada_2022;
 
 with Ada.Text_IO;
+with Ada.Numerics;
 with Ada.Containers.Vectors;
 with Ada.Containers.Ordered_Maps;
+with Ada.Numerics.Discrete_Random;
 with Ada.Containers.Indefinite_Vectors;
 with Ada.Containers.Synchronized_Queue_Interfaces;
 with Ada.Containers.Unbounded_Synchronized_Queues;
@@ -23,8 +25,9 @@ procedure Day15 is
 
    package IO renames Ada.Text_IO;
 
-   Doing_Example : constant Boolean := False;
+   Visualize     : Boolean := True;
    Which_Example : constant Positive := 3;
+   Doing_Example : constant Boolean := False;
 
    --  SECTION
    --  Global types and variables
@@ -56,6 +59,9 @@ procedure Day15 is
 
    Critters : Warrior_Vecs.Vector;
 
+   Elf_Attack : Natural := 3;
+   Goblin_Attack : constant Natural := 3;
+
    --  SUBSECTION
    --  Battlefield
 
@@ -74,6 +80,9 @@ procedure Day15 is
 
    --  SECTION
    --  I/O
+
+   --  SUBSECTION
+   --  Reading the initial state
 
    Bad_Input : exception;
 
@@ -152,6 +161,9 @@ procedure Day15 is
 
    end Read_Input;
 
+   --  SUBSECTION
+   --  Output to terminal; visualization to a file is below
+
    procedure Put_Map is
    begin
 
@@ -187,6 +199,205 @@ procedure Day15 is
       end loop;
 
    end Put_Map;
+
+   --  SUBSECTION
+   --  Visualization to a file
+
+   type Color is record
+      Red, Green, Blue : Natural;
+   end record;
+
+   --  SUBSUBSECTION
+   --  Randomize the wall and floor colors to be a little more interesting
+
+   Background : array (Position, Position) of Color;
+
+   procedure Setup_Background is
+
+      type Wall_Range is new Positive range 48 .. 80;
+      type Floor_Range is new Positive range 198 .. 240;
+
+      package Random_Wall is new Ada.Numerics.Discrete_Random
+         (Result_Subtype => Wall_Range);
+      package Random_Floor is new Ada.Numerics.Discrete_Random
+         (Result_Subtype => Floor_Range);
+
+      Wall_Generator : Random_Wall.Generator;
+      Floor_Generator : Random_Floor.Generator;
+
+   begin
+
+      for Row in Position loop
+         for Col in Position loop
+
+            declare
+
+               Wall_Level : constant Wall_Range
+                  := Random_Wall.Random (Wall_Generator);
+               Floor_Level : constant Floor_Range
+                  := Random_Floor.Random (Floor_Generator);
+
+               RGB : constant Color := (
+
+                  case Map (Row, Col).Contents is
+
+                  when Wall => Color'(
+                     Red => Natural (Wall_Level),
+                     Blue => Natural (Wall_Level),
+                     Green => Natural (Wall_Level)
+                  ),
+
+                  when others => Color'(
+                     Red => Natural (Floor_Level),
+                     Blue => Natural (Floor_Level),
+                     Green => Natural (Floor_Level)
+                  )
+
+               );
+
+            begin
+               Background (Row, Col) := RGB;
+            end;
+
+         end loop;
+      end loop;
+
+   end Setup_Background;
+
+   procedure Write_Map_To_File (Part, Round : Natural) is
+
+      F      : IO.File_Type;
+      Suffix : array (1 .. 8) of Character := [others => '0'];
+
+      Dead_Color : constant Color := (Red => 224, Green => 0, Blue => 192);
+      Critter_Color : constant array (Critter) of Color
+         := [
+            Elf => Color'(Red => 0, Green => 192, Blue => 0),
+            Goblin => Color'(Red => 192, Green => 96, Blue => 0)
+         ];
+      Colors : array (Position, Position) of Color;
+
+      Rescale : constant Positive := 10;
+
+   begin
+
+      --  easiest to control whether to visualize at this point
+      if Visualize then
+
+         --  setup file name
+
+         Suffix (1) := Natural'Image (Part) (2);
+         Suffix (2) := '_';
+
+         declare Tmp_Suffix : constant String := Elf_Attack'Image;
+         begin
+            if Elf_Attack < 10 then
+               Suffix (4) := Tmp_Suffix (2);
+            else
+               Suffix (3) := Tmp_Suffix (2);
+               Suffix (4) := Tmp_Suffix (3);
+            end if;
+         end;
+
+         Suffix (5) := '_';
+
+         declare Tmp_Suffix : constant String := Round'Image;
+         begin
+            if Round < 10 then
+               Suffix (8) := Tmp_Suffix (2);
+            elsif Round < 100 then
+               Suffix (7) := Tmp_Suffix (2);
+               Suffix (8) := Tmp_Suffix (3);
+            else
+               for I in 6 .. 8 loop
+                  Suffix (I) := Tmp_Suffix (I - 4);
+               end loop;
+            end if;
+         end;
+
+         --  draw map into raster
+
+         for Row in Position loop
+            for Col in Position loop
+
+               Colors (Row, Col) := (
+                  case Map (Row, Col).Contents is
+                  when Wall | Empty => Background (Row, Col),
+                  when Being =>
+                     (if Critters (Map (Row, Col).Critter_Idx).Hit_Points > 0
+                      then
+                        Critter_Color (
+                           Critters (Map (Row, Col).Critter_Idx).Kind
+                        )
+                        else Dead_Color
+                     )
+               );
+
+               --  adjust critter color to reflect its health
+               if Map (Row, Col).Contents = Being then
+                  declare
+                     HP : constant Natural
+                        := Critters (Map (Row, Col).Critter_Idx).Hit_Points;
+                  begin
+                     Colors (Row, Col).Red
+                        := (@ * HP / 200) + (255 * (200 - HP) / 200);
+                  end;
+               end if;
+
+            end loop;
+         end loop;
+
+         --  if a critter is dead and no other is standing over its corpse,
+         --  modify the raster to suggest blood stains
+         for C of Critters loop
+            if C.Hit_Points = 0 and then Map (C.Row, C.Col).Contents = Empty
+            then
+               Colors (C.Row, C.Col).Red
+                  := (8 * @ + 2 * Dead_Color.Red) / 10;
+               Colors (C.Row, C.Col).Green
+                  := (8 * @ + 2 * Dead_Color.Green) / 10;
+               Colors (C.Row, C.Col).Blue
+                  := (8 * @ + 2 * Dead_Color.Blue) / 10;
+            end if;
+         end loop;
+
+         --  finally! create file and write header
+         IO.Create (F, Name => "Images/Round_" & String (Suffix) & ".ppm");
+         IO.Put (F, "P3");
+         IO.Put (F, Positive'Image (Positive (Position'Last) * 10));
+         IO.Put (F, Positive'Image (Positive (Position'Last) * 10));
+         IO.Put (F, " 255"); -- max color
+         IO.New_Line (F);
+
+         --  rescaling included
+         for Row in Position loop
+            for Repeat_Row in 1 .. Rescale loop
+               for Col in Position loop
+
+                  declare
+                     C : constant Color := Colors (Row, Col);
+                  begin
+
+                     for Repeat_Col in 1 .. Rescale loop
+                        IO.Put (F, C.Red'Image & C.Green'Image & C.Blue'Image);
+                     end loop;
+                     IO.New_Line (F);
+
+                  end;
+
+               end loop;
+
+               IO.New_Line (F);
+            end loop;
+
+            IO.New_Line (F);
+         end loop;
+
+         IO.Close (F);
+
+      end if;
+
+   end Write_Map_To_File;
 
    --  SECTION
    --  Parts 1 and 2
@@ -228,9 +439,6 @@ procedure Day15 is
 
    --  SUBSECTION
    --  Part 1: Attacking, if possible
-
-   Elf_Attack : Natural := 3;
-   Goblin_Attack : constant Natural := 3;
 
    procedure Attack (To : Location) is
    --  Removes the appropriate number of hit points from the critter at To,
@@ -612,8 +820,9 @@ procedure Day15 is
       (for some C of Critters => C.Hit_Points > 0 and then C.Kind = Goblin)
    );
 
-   function Part_1 return Natural is
-      Round : Natural := 0;
+   Round : Natural := 0;
+
+   function Part_1 (Inside_Part_2 : Boolean := False) return Natural is
       Result : Natural := 0;
       Debug : constant Boolean := False;
    begin
@@ -623,8 +832,9 @@ procedure Day15 is
          Round := @ + 1;
          if Debug then
             IO.Put_Line ("----- ROUND" & Round'Image & " -----");
-            --  Put_Map;
+            Put_Map;
          end if;
+         Write_Map_To_File ((if Inside_Part_2 then 2 else 1), Round);
 
          --  sort warriors
          --  since the map contains references to warriors, update those, too
@@ -719,6 +929,9 @@ procedure Day15 is
       <<Game_Over>>
       IO.Put_Line ("Combat ended after" & Round'Image & " rounds");
 
+      --  write out final state; add 2 to overcome sub 1 at end of round
+      Write_Map_To_File ((if Inside_Part_2 then 2 else 1), Round + 2);
+
       for C of Critters loop
          if C.Hit_Points > 0 then
             IO.Put_Line (
@@ -750,12 +963,13 @@ procedure Day15 is
          Map := Original_Map;
          Critters := Original_Critters.Copy;
          Elf_Attack := @ + 1;
+         Round := 0;
 
          IO.New_Line;
          IO.Put_Line ("Trying part 2 with elf attack of" & Elf_Attack'Image);
 
          declare
-            Result : constant Natural := Part_1;
+            Result : constant Natural := Part_1 (True);
          begin
 
             if (
@@ -773,11 +987,17 @@ procedure Day15 is
 
 begin
    Read_Input;
+   Setup_Background;
    Original_Map := Map;
    Original_Critters := Critters.Copy;
+   --  might as well look at it before we start
    Put_Map;
 
    IO.Put_Line ("the outcome of Part 1 is" & Part_1'Image);
+
+   --  run once to find solution to part 2,
+   --  then edit Part 2 to set Visualize when Elf_Attack has the desired value
+   Visualize := False;
 
    IO.Put_Line (
       "to win, without losing any elves (outcome of" & Part_2'Image

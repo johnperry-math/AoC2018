@@ -416,4 +416,9 @@ I was checking only paths ready to queue were suboptimal.
 One also needs to check whether freshly dequeued paths are suboptimal.
 
 #### Visualization
-Real Soon Now!
+
+##### Part 1 #####
+[<img src="day15/Images/Part_1_optimized.gif">](day15/Images/Part_1_optimized.gif)
+
+##### Part 2 #####
+[<img src="day15/Images/Part_2_optimized.gif">](day15/Images/Part_2_optimized.gif)
