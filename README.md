@@ -313,13 +313,13 @@ Nothing else I'm not used to by know.
 * Doing the example didn't help me solve the problem,
   but technically I _did_ the example, so this puzzle lies in this section.
 
-#### Visualziation
+#### Visualization
 
 I'd like to do this eventually, but I haven't done it yet.
 
 ### Day 14: Chocolate Charts
 
-Elves are making chocolate and are scoring recipes, which recombine.
+Elves are making hot chocolate and are scoring recipes, which recombine.
 The scores range from 0 to 9.
 
 1. What are the ten recipe scores once you make the number of recipes
@@ -342,4 +342,78 @@ I thought Part 2 would be harder than it turned out to be.
 
 ## Days I completed only after doing the example first
 
-None yet!
+### Day 15: Beverage Bandits
+
+Goblins are stealing the elves' hot chocolate. The elves plan to defend it.
+This is a surprisingly morbid puzzle, with critters really dying!
+Both sides adhere to a very strict rule of combat,
+and the combat ends only when every enemy is dead.
+
+The elves, alas, are greatly outnumbered.
+
+1. What is the outcome under the default abilities?
+   Here, "outcome" is defined as the last full round
+   where the losing team plays,
+   multiplied by the sum of the survivors' hit points.
+1. What attack strength would the elves need to win
+   _without losing a single elf_?
+
+#### Tools
+1. I used breadth-first search.
+
+#### Experience
+The moment I looked at this and realized
+it would require search through a maze,
+I figured it would moitilize me,
+so of course I resolved to try the examples first.
+
+No point in sugarcoating it: _even the examples_ moitilized me.
+
+Just getting the breadth-first search set up and running took me four hours --
+and that turned out to be _erroneous_,
+because I hadn't read the rules carefully enough, _despite trying!_
+There are just so many words... I mean, look, it's my fault, sure;
+I need to read more carefully, and outline the important parts myself,
+but this really could have been described more efficiently,
+and the examples could have shown more intermediate steps.
+In fact, I'm lucky; reading the comments online,
+it appears that the original version had a _really_ poor choice of words
+that misled many readers.
+
+I was "lucky" in the sense that I couldn't get the examples to work.
+Reading comments online helped a little, but in the end I had to give up and
+tried a couple of solutions to see if they would help.
+Two C++ solutions failed to help -- one gave the wrong answer _on an example_,
+while the other seg-faulted out of the gate.
+Fortunately,
+[a Python example](https://www.reddit.com/r/adventofcode/comments/a6chwa/2018_day_15_solutions/ebtwcqr/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button)
+worked just fine! and I was able to find my errors by comparing behavior.
+
+##### :warning: Caution! :warning:
+-- That said -- the linked Python program may have a small error.
+I saw a discrepancy in a couple path choices where I'm quite sure
+this code makes the right choice. In one example, a goblin at (12,8)
+chose to move to (13,8), when a choice of (12,9) was available
+_and_ would take it to the same destination.
+That's definitely incorrect, but the discrepancy resolved itself quickly
+and both solutions attain the same answers, so... I dunno!
+
+All that aside, I like the puzzle!
+As I recall, I was guilty of "only" four errors I didn't detect myself,
+three of which seem to be common:
+
+1. Preference is given to a path with the "smallest" _target_ cell,
+   not the smallest _first_ cell; though ties on the target are indeed
+   broken in favor of a path with the "smallest" _first_ cell.
+1. I didn't properly handle the case when all enemies die mid-round.
+1. I conflated end-of-turn and end-of-game.
+1. The `Explored_Routes` cache needed for Breadth-First Search
+   needs to be updated correctly when a better path is available.
+   If I recall correctly, in my case I was neglecting to store the first step.
+
+I also hit a huge bottleneck once I had the correct search algorithm, as
+I was checking only paths ready to queue were suboptimal.
+One also needs to check whether freshly dequeued paths are suboptimal.
+
+#### Visualization
+Real Soon Now!
