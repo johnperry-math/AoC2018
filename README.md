@@ -158,6 +158,40 @@ position in wrong (`236,238,11` instead of `236,268,11`).
 I then tried to implement Part 2 more efficiently, but kept wrecking that.
 Having the first, slow solution working made that more tolerable.
 
+### Day 16: Chronal Classification
+
+You're time traveling again, and your time traveling piece is still acting up.
+Let's try to decipher its machine code, to see what's going on.
+Start with a bunch of samples of its registers before/after an instruction,
+as well as a program.
+
+1. Determine how many samples satisfy at least three opcodes.
+1. Decipher the opcodes and report the value of register 0
+   after the program finishes executing.
+
+#### Tools
+* Arrays of subprograms made Parts 1 and 2 easier.
+
+#### Experience
+Fun and easy, though not quite as fun and easy as it should have been.
+I misread the question to Part 1, so I got it wrong the first time,
+but I quickly worked out my problem.
+
+Part 2 took longer because Ada is a little (too?) picky
+when it comes to bitwise oeprations: they can't be performed on integer types,
+only on modular types.
+I've seen enough arguments about this to know better than to quibble with Ada;
+for our purposes, my problem was that I selected too low a modulus,
+and didn't realize the number reset until I tried my input
+on someone else's solution.
+I imagine a lot of Ada programmers would say that the real problem lies
+in the problem specification, since it doesn't tell us how large the numbers
+might be.
+
+As a final note, this probably doesn't end up in the next section
+because there _weren't_ many examples to test,
+so what was the point of trying?
+
 ## Days I tried to solve without the example, but had to give in
 
 ### Day 3: No Matter How You Slice It
