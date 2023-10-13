@@ -192,6 +192,38 @@ As a final note, this probably doesn't end up in the next section
 because there _weren't_ many examples to test,
 so what was the point of trying?
 
+### Day 17: Reservoir Research
+
+Even further back in time, you meet elves
+who are trying to create the North Pole.
+They need water, which is underground.
+There's clay, there's sand, and there's a spring at ground level.
+Water sinks down from the spring.
+
+1. Determine how many cells
+   between the first and last depth levels in the input
+   will contain water.
+2. Over the long haul, the reservoir will dry up.
+   Determine how many cells will retain water.
+
+#### Tools
+
+Nothing special.
+
+#### Experience
+
+I should have finished this more quickly, but I got hung up on
+some special cases. Fortunately, this problem is rather visual, so
+I found them myself, with the help of an example I made up. (Included!)
+
+After that, I got stuck on an answer that was just slightly too high,
+because I didn't catch the wording about starting from the highest clay block,
+not from just below ground level.
+
+#### Visualization
+
+Coming soon!
+
 ## Days I tried to solve without the example, but had to give in
 
 ### Day 3: No Matter How You Slice It
