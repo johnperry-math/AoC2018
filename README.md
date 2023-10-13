@@ -222,7 +222,7 @@ not from just below ground level.
 
 #### Visualization
 
-Coming soon!
+Because it's so large visually, here's a [link](day17/Images/Part1.png).
 
 ## Days I tried to solve without the example, but had to give in
 

@@ -130,7 +130,7 @@ procedure Day17 is
                end loop;
 
             else
-               -- this is a row
+               --  this is a row
                Nat_IO.Get (S (Pos .. S'Length), Y1, Pos);
                Pos := @ + 5;
                Nat_IO.Get (S (Pos .. S'Length), X1, Pos);
@@ -199,6 +199,87 @@ procedure Day17 is
       end loop;
 
    end Draw_Soil;
+
+   procedure Write_Soil_To_File is
+
+      F : IO.File_Type;
+      Name : String (1 .. 6) := [others => '0'];
+      File_Number : constant String := Water.Length'Image;
+
+      type Rgb is record
+         Red, Green, Blue : Natural;
+      end record;
+
+      Clay_Color : constant Rgb := (Red => 129, Green => 63, Blue => 11);
+      Sand_Color : constant Rgb := (Red => 244, Green => 164, Blue => 96);
+      Water_Color : constant Rgb := (Red => 102, Green => 205, Blue => 170);
+
+      Min_X_Water : Natural := Min_X;
+
+   begin
+
+      for P of Water loop
+         Min_X_Water := Natural'Min (P.X, Min_X_Water);
+      end loop;
+
+      Min_X_Water := @ - 2;
+
+      for Idx in 2 .. File_Number'Length loop
+         Name (6 - File_Number'Length + Idx) := File_Number (Idx);
+      end loop;
+
+      IO.Create (F, Name => "Images/Frame_" & Name & ".ppm");
+      IO.Put (F, "P3");
+      IO.Put (F, Positive'Image (3 * (Max_X - Min_X_Water + 1)));
+      IO.Put (F, Positive'Image (3 * (Max_Y - Min_Y + 1)));
+      IO.Put (F, " 255"); -- max color
+      IO.New_Line (F);
+
+      for Y in Min_Y .. Max_Y loop
+         for Each_Y in 1 .. 3 loop
+            declare
+               Idx : Positive := 1;
+               Row : X_Vectors.Vector renames Bounds (Y);
+            begin
+               for X in Min_X_Water .. Max_X loop
+                  if Idx <= Natural (Row.Last_Index) and then Row (Idx) = X
+                  then
+                     for Each_X in 1 .. 3 loop
+                        IO.Put_Line (F,
+                           Clay_Color.Red'Image
+                           & Clay_Color.Blue'Image
+                           & Clay_Color.Green'Image
+                        );
+                     end loop;
+                     Idx := @ + 1;
+
+                  elsif Water.Contains ((X, Y)) then
+                     for Each_X in 1 .. 3 loop
+                        IO.Put_Line (F,
+                           Water_Color.Red'Image
+                           & Water_Color.Blue'Image
+                           & Water_Color.Green'Image
+                        );
+                     end loop;
+                  else
+                     for Each_X in 1 .. 3 loop
+                        IO.Put_Line (F,
+                           Sand_Color.Red'Image
+                           & Sand_Color.Green'Image
+                           & Sand_Color.Blue'Image
+                        );
+                     end loop;
+                  end if;
+               end loop;
+               IO.New_Line (F);
+            end;
+         end loop;
+         IO.New_Line (F);
+      end loop;
+
+      IO.Close (F);
+
+   end Write_Soil_To_File;
 
    --  SECTION
    --  Part 1
@@ -275,7 +356,7 @@ procedure Day17 is
       Debug : constant Boolean := False;
 
    begin
-   
+
       while Rising_Left and then Rising_Right loop
       --  as long as the left or right side is still rising,
       --  we need to check for spread
@@ -349,7 +430,7 @@ procedure Day17 is
          Y := @ - 1;
 
       end loop;
-      
+
    end Spread_From;
 
    procedure Fall is
@@ -465,7 +546,7 @@ procedure Day17 is
 
       Water := Retained_Water;
       return Natural (Water.Length);
-      
+
    end Part2;
 
 begin
@@ -479,8 +560,9 @@ begin
       --  Draw_Soil;
       IO.Put_Line ("There are" & Water_Cells'Image & " cells of water");
    end;
+   Write_Soil_To_File;
 
    IO.Put_Line ("There are" & Part2'Image & " cells retained");
    --  Draw_Soil;
-   
+
 end Day17;
