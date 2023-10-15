@@ -77,6 +77,42 @@ procedure Day6 is
 
    end Print_Grid;
 
+   procedure Write_Grid_To_File (Grid : Grid_Type) is
+      F : Text_IO.File_Type;
+      Max_Value : Natural := 0;
+   begin
+
+      for Each of Grid loop
+         Max_Value := Natural'Max (Max_Value, Each.Claimant);
+      end loop;
+
+      Text_IO.Create (F, Name => "Visualization.ppm");
+      Text_IO.Put (F, "P3");
+      Text_IO.Put (F, Positive'Image (Grid'Length (2)));
+      Text_IO.Put (F, Positive'Image (Grid'Length (1)));
+      Text_IO.Put (F, Max_Value'Image); -- max color
+      Text_IO.New_Line (F);
+
+      for Row in Grid'Range (1) loop
+         for Col in Grid'Range (2) loop
+            if Locations.Contains ((Row, Col)) then
+               Text_IO.Put (F, Max_Value'Image & " 0 0");
+            elsif Grid (Row, Col).Claimed then
+               Text_IO.Put (
+                  F,
+                  Grid (Row, Col).Claimant'Image
+                  & Grid (Row, Col).Claimant'Image
+                  & " 0"
+               );
+            else
+               Text_IO.Put (F, " 0 0" & Max_Value'Image);
+            end if;
+         end loop;
+         Text_IO.New_Line (F);
+      end loop;
+      Text_IO.Close (F);
+   end Write_Grid_To_File;
+
    procedure Read_Input is
       F : Text_IO.File_Type;
    begin
@@ -305,6 +341,7 @@ procedure Day6 is
       end loop;
 
       --  Print_Grid (Grid);
+      Write_Grid_To_File (Grid);
 
       --  determine the finite areas
       declare

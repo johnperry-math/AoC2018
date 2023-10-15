@@ -298,6 +298,15 @@ A silver lining is that the second implementation,
 which _does_ give the correct answer,
 seems simpler and more efficient than the first.
 
+#### Visualization
+
+**Legend**
+* Red dots indicate co-ordinates.
+* Blue dots are equidistant from coordinates.
+* Shades of yellow indicate which coordinate the dot belongs to.
+
+![Visualization.gif](day6/Visualization.gif)
+
 ### Day 8: Memory Maneuver
 
 Your device won't given directions because it can't read the license file.
