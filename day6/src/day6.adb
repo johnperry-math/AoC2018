@@ -106,6 +106,8 @@ procedure Day6 is
 
       end loop;
 
+      Text_IO.Close (F);
+
    end Read_Input;
 
    --  SECTION

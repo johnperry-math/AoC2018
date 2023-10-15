@@ -54,6 +54,7 @@ procedure Day10 is
             Points.Append (Point'(X, Y, Dx, Dy));
          end;
       end loop;
+      IO.Close (F);
    end Read_Input;
 
    --  SECTION

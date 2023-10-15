@@ -96,6 +96,7 @@ procedure Day5 is
             Extend_Chain (Polymers, P);
          end;
       end loop;
+      Text_IO.Close (F);
    end Read_Input;
 
    --  SECTION

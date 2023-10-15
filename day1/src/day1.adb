@@ -37,6 +37,7 @@ procedure Day1 is
          IntIO.Get (File, Drift, Width => 0);
          Input.Append (Drift);
       end loop;
+      ATIO.Close (File);
    end Read_Input;
 
    --  SECTION
@@ -46,7 +47,7 @@ procedure Day1 is
    --  first opportunity to use the 'Reduce container attribute!
    --  hence the -gnatX configuration option
 
-   Should_Not_Happen: exception;
+   Should_Not_Happen : exception;
 
    function Part2 return Integer is
    --  this solution computes all frequencies until it finds a repetition

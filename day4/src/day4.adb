@@ -160,6 +160,8 @@ procedure Day4 is
 
       end loop;
 
+      TIO.Close (F);
+
       Shift_Vec_Sorter.Sort (Shifts);
 
    end Read_Input;

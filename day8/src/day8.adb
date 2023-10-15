@@ -68,7 +68,7 @@ procedure Day8 is
          Metas.Append (Meta);
       end loop;
 
-      -- append and return
+      --  append and return
       Nodes.Append (Node'(Num_Children, Num_Metas, Metas, Children));
       return Nodes.Last_Index;
 
@@ -87,6 +87,8 @@ procedure Day8 is
       begin
          null;
       end;
+
+      IO.Close (F);
 
    end Read_Input;
 
@@ -112,7 +114,7 @@ procedure Day8 is
    --  recursively compute the value of the node stored at the given index
 
       Result : Natural := 0;
-      H : Node := Nodes (Idx);
+      H : constant Node := Nodes (Idx);
 
    begin
 

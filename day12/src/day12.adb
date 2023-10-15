@@ -113,6 +113,8 @@ procedure Day12 is
          end;
       end loop;
 
+      IO.Close (F);
+
    end Read_Input;
 
    --  SECTION

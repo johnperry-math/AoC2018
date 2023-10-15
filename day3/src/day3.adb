@@ -108,6 +108,8 @@ procedure Day3 is
 
       end loop;
 
+      ATIO.Close (F);
+
    end Read_Input;
 
    --  SECTION

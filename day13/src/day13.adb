@@ -159,6 +159,8 @@ procedure Day13 is
 
       end loop;
 
+      IO.Close (F);
+
    end Read_Input;
 
    --  SUBSECTION
