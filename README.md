@@ -85,7 +85,7 @@ to verify that it would produce the correct answer,
 I was by that point already fairly confident that my answer was correct,
 but competition rules required me to wait five minutes before I tried again.
 Having nothing else to do, I tried the example, but I don't feel it belongs
-with the usual days where I needed the example to solve the problem./
+with the usual days where I needed the example to solve the problem.
 
 ### Day 9: Marble Madness
 
@@ -208,7 +208,7 @@ Water sinks down from the spring.
 
 #### Tools
 
-Nothing special.
+* `Ada.Containers.Generic_Sorter`
 
 #### Experience
 
@@ -253,6 +253,7 @@ and during the midnight hour he takes a nap.
 
 #### Tools
 
+* `Ada.Containers.Generic_Sorter`
 * The new `'Reduce` attribute with `"+"`.
 * I had some issues with generating a discriminated record
   in a `case` statement without branching on every enumeration variant.
@@ -435,6 +436,7 @@ The elves, alas, are greatly outnumbered.
 
 #### Tools
 1. I used breadth-first search.
+1. `Ada.Containers.Generic_Sorter`
 
 #### Experience
 The moment I looked at this and realized
