@@ -224,6 +224,28 @@ not from just below ground level.
 
 Because it's so large visually, here's a [link](day17/Images/Part1.png).
 
+### Day 18: Settlers of The North Pole
+
+Elves are building in a wilderness of trees, open spaces, and lumberyards.
+An acre of one thing can change to an acre of a another thing
+depending on what its neighboring acres contain.
+Things change quickly: once a minute!
+
+1. Find the resource value after 10 minutes.
+1. Find the resource value after 1 billion minutes.
+
+#### Tools
+
+* Basic number theory via modular arithmetic.
+* Pretty pleased with how I used arrays indexed by an enumeration.
+
+#### Experience
+
+Fun and easy. One of my daughters worked with me on the problem, and
+we had fun with this problem, including the debugging. She doesn't know Ada and
+isn't likely to learn much from this, but she learned a bit and helped keep me
+on my toes with good questions.
+
 ## Days I tried to solve without the example, but had to give in
 
 ### Day 3: No Matter How You Slice It
