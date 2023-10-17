@@ -246,6 +246,10 @@ we had fun with this problem, including the debugging. She doesn't know Ada and
 isn't likely to learn much from this, but she learned a bit and helped keep me
 on my toes with good questions.
 
+#### Visualization
+
+![Part2.gif](day18/Images/Part2.gif)
+
 ## Days I tried to solve without the example, but had to give in
 
 ### Day 3: No Matter How You Slice It

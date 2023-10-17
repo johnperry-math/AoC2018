@@ -86,6 +86,55 @@ procedure Day18 is
 
    end Print_Area;
 
+   procedure Save_Area_To_File (Area : Area_Type; Iteration : Natural) is
+
+      F : IO.File_Type;
+
+      Suffix : String (1 .. 4) := "0000";
+      Tmp_Suffix : constant String := Iteration'Image;
+
+   begin
+
+      --  copy suffix, accounting for initial space
+      for Idx in reverse 2 .. Tmp_Suffix'Last loop
+         Suffix (4 - (Tmp_Suffix'Last - Idx)) := Tmp_Suffix (Idx);
+      end loop;
+
+      --  open file and write header
+      IO.Create (F, Name => "Images/frame_" & Suffix & ".ppm");
+      IO.Put (F, "P3");
+      IO.Put (F, " 200");
+      IO.Put (F, " 200");
+      IO.Put (F, " 255"); -- max color
+      IO.New_Line (F);
+
+      --  write image, dilating by a factor of 4 to make it more visible
+      for Row in Row_Range loop
+         for Each_Row in 1 .. 4 loop
+
+            for Col in Col_Range loop
+               for Each_Col in 1 .. 4 loop
+
+                  IO.Put (F, (
+                     case Area (Row, Col) is
+                     when Open => " 129  63  11",
+                     when Woods => "   0 192   0",
+                     when Lumberyard => " 192 192 192"
+                  ));
+
+               end loop;
+            end loop;
+
+            IO.New_Line (F);
+         end loop;
+
+         IO.New_Line (F, 2);
+      end loop;
+
+      IO.Close (F);
+
+   end Save_Area_To_File;
+
    --  SECTION
    --  Parts 1 and 2
 
@@ -245,6 +294,7 @@ procedure Day18 is
 
       loop
 
+         Save_Area_To_File (Area, Iterations);
          Iterations := @ + 1;
          Iterate (Area);
 
@@ -286,6 +336,7 @@ procedure Day18 is
       --  run them
 
       for Each in 1 .. Where_To_Find_It loop
+         Save_Area_To_File (Area, Iterations);
          Iterate (Area);
       end loop;
 
@@ -297,5 +348,7 @@ begin
    Read_Input;
    Print_Area (Initial_Area);
    IO.Put_Line ("The resource value is" & Part_1'Image);
-   IO.Put_Line ("The resource value after 1 billion minutes is" & Part_2'Image);
+   IO.Put_Line (
+      "The resource value after 1 billion minutes is" & Part_2'Image
+   );
 end Day18;
