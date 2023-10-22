@@ -66,6 +66,10 @@ here's a table of contents with all the days, in order.
 
   Determine how the clear land, woods, and lumberyards evolve over time.
 * [Day 19](#day-19-go-with-the-flow): Go with the Flow
+
+  What are the background programs on your time-traveling device up to?!?
+* [Day 20](#day-19-go-with-the-flow): Go with the Flow
+
   What are the background programs on your time-traveling device up to?!?
 
 ## Days I completed without doing the example first
@@ -592,6 +596,57 @@ then compute σ(n), the sum of its factors.
     once it arrives at line 3 (the inner loop) and to find the sum based on
     the largest number it finds in some register,
     which might be any different register.
+
+### Day 20: A Regular Map
+
+While you wasted time with your time-travel device,
+the elves built a huge maze around you.
+Of course they don't give you a map; they give you a regular expression
+that tells you how to get around the map.
+
+1. Determine the maximal shortest distance to a room; that is,
+   the largest number of steps required to reach a room.
+1. Determine how many rooms require at least 1000 steps to reach.
+
+#### Tools
+
+* Only the ability to abandon an approach that seemed overwrought or incorrect.
+* **Twice.**
+
+#### Experience
+
+To start with, this is a curious puzzle, in that
+* Part 2 is a lot easier than Part 1, and arguably should have come first; and
+* the examples leave out a case where the empty option leads to a longer path!
+
+Still, I worked that out on my own and found a fix, so I'm pretty pleased.
+
+On my first attempt, I thought I'd make use of Ada's `Multiway_Trees` to set up
+a precise representation of the map in memory.
+But the more I worked on that, the more I thought that
+I was probably wasting my time.
+After all, I could do all the examples by hand, and could imagine an algorithm
+that would replicate exactly what I was doing.
+
+So I abandoned that approach and set about implementing that algorithm,
+which simply tries to identify the longest path.
+I made one small mistake the first time, and that led to too large an answer.
+I debugged the path-following logic using the examples,
+but even with that worked out, the answer was now too _small_.
+Rereading the problem and thinking about the possibilities, I realized that
+by ignoring the lengths of paths that backtrack on themselves,
+I was overlooking the possibility that a room at the end of such a path
+could be the furthest.
+
+So I abandoned _that_ approach and implemented a new one
+that keeps track of the room(s) it passes through,
+recording in a `Hashed_Map` the shortest distance required to reach that room.
+That gave me the correct answer!
+
+Then I realized that a slight tweaking of the second approach
+should in fact still work, and since I rather like that approach better,
+I went ahead and made the tweak. Unfortunately, it didn't work,
+so I abandoned it again.
 
 ## Days I completed only after doing the example first
 
