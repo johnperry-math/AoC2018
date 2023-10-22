@@ -7,6 +7,67 @@ By the time I got 'round to doing this, I knew Ada's library well enough
 that I no longer mention it in the **Tools** subsections
 unless it was something truly unusual.
 
+Since the days are somewhat out of order, depending on
+whether I tried the example and, if so, when exactly I did,
+here's a table of contents with all the days, in order.
+
+* [Day 1](#day-1-chronal-calibration): Chronal Calibration
+
+  Calibrate your mobile time-watch.
+* [Day 2](#day-2-inventory-management-system): Inventory Management System
+
+  Identify two boxes with similar id's.
+* [Day 3](#day-3-no-matter-how-you-slice-it): No Matter How You Slice it
+
+  Resolve contrasting claims to the fabric in those boxes.
+* [Day 4](#day-4-repose-record): Repose Record
+
+  Determine when it's likeliest to be easiest to sneak into a storage room.
+* [Day 5](#day-5-alchemical-reduction): Alchemical Reduction
+
+  Reduce chains of polymers.
+* [Day 6](#day-6-chronal-coordinates)
+
+  Identify unsafe and safe areas to arrive after time travel.
+* [Day 7](#day-7-the-sum-of-its-parts): The Sum of Its Parts
+
+  Assemble Santa's sleigh... efficiently.
+* [Day 8](#day-8-memory-maneuver): Memory Maneuver
+
+  Figure out a tree and traverse it.
+* [Day 9](#day-9-marble-madness): Marble Madness
+
+  Find the highest scores to games of numbered marbles.
+* [Day 10](#day-10-the-stars-align): The Stars Align
+
+  Find a message being spelled out by a point system in the sky.
+* [Day 11](#day-11-chronal-charge): Chronal Charge
+
+  Determine the block of cells with the highest power charge
+* [Day 12](#day-12-subterranean-sustainability): Subterranean Sustainability
+
+  Analyze the growth patterns of subterranean potted plants.
+* [Day 13](#day-13-mine-cart-madness): Mine Cart Madness
+
+  Work out where the elf-drive carts crash.
+* [Day 14](#day-14-chocolate-charts): Chocolate Charts
+
+  Hot chocolate recipe scoring and score-matching.
+* [Day 15](#day-15-beverage-bandits): Beverage Bandits
+
+  Help the elves defeat the goblins, who want to steal the hot chocolate. Here, "defeat" means "kill or be killed".
+* [Day 16](#day-16-chronal-classification): Chronal Classification
+
+  Decipher the time machine's machine code.
+* [Day 17](#day-17-reservoir-research): Reservoir Research
+
+  Which underground cells contain water now? Which cells will contain water much, much later?
+* [Day 18](#day-18-settlers-of-the-north-pole): Settlers of the North Pole
+
+  Determine how the clear land, woods, and lumberyards evolve over time.
+* [Day 19](#day-19-go-with-the-flow): Go with the Flow
+  What are the background programs on your time-traveling device up to?!?
+
 ## Days I completed without doing the example first
 
 ### Day 1: Chronal Calibration
@@ -336,7 +397,7 @@ seems simpler and more efficient than the first.
 
 ### Day 8: Memory Maneuver
 
-Your device won't given directions because it can't read the license file.
+Your device won't give directions because it can't read the license file.
 You need to decode it.
 
 1. Report the sum of all nodes' meta values.
@@ -441,6 +502,96 @@ Someone mentioned getting a very wrong answer when using the puzzle input
 as the first recipes, and go figure, that was precisely my problem.
 
 I thought Part 2 would be harder than it turned out to be.
+
+### Day 19: Go With The Flow
+
+1. A background program is working on your device,
+   and you'd like to figure out what it's up to.
+   Run the program and report the contents of register 0.
+1. The same program suddenly boots up again, this time with a 1 in register 0.
+   Determine the contents of register 0 when it finishes.
+
+#### Tools
+
+* The virtual machine from Day 16, though you don't have to reverse engineer it
+  this time.
+* For Part 2, you need either an immense amount of patience, or a JIT,
+  or an analysis of what the machine instructions are trying to do.
+
+#### Spoiler alert
+
+The machine instructions set up a ginormous number n,
+then compute σ(n), the sum of its factors.
+
+#### Experience
+
+* Part 1 was fine, though my first attempt was incorrect thanks to the modulus
+  I used on Day 16 not being sufficiently high this time.
+  So, I cranked up the number a few times until cranking it up higher
+  no longer changed the final result, figuring that that meant I was not longer
+  overflowing the modulus.
+  If I recall correctly, 2 million suffices,
+  but I have it set for 4 million instead.
+
+  This is where I decided to try the example. It didn't help at all,
+  except to convince me that I had implemented it correctly
+  and needed to think about the implementation more deeply.
+  I immediately suspected something about the modular type, and I was correct.
+  Again I find myself wishing either that Mr. Wastl would be more precise
+  about the machine (e.g., word size) or that Ada would let me perform bitwise
+  arithmetic on regular integer values.
+
+* Part 2 was more challenging, because it sits there a **loooooong** time doing
+  seemingly nothing, and if you debug it a little to see what's going on,
+  it becomes clear that a ginormous number is involved.
+  I looked online for hints and saw that many people decided to dis-assemble
+  the code and then analyzed its behavior, so I tried that, at which point
+  it became clear that it's basically the following pseudocode:
+
+      determine a ginormous number (details omitted)
+
+      for r1 in 1 .. ginormous
+         for r5 in 1 .. ginormous
+
+            if r1 x r5 = ginormous
+               --  aha! r1 is a factor of ginormous; add it to result
+               add r1 to r0
+            end if
+
+            add 1 to r5
+
+            if r5 > ginormous then
+               break from "for r5"
+            end if
+
+         end "for r5"
+
+         if r1 > r3 then
+            break from "for r1"
+         end if
+
+      end "for r1"
+
+  In other words, it's summing the factors of `ginormous` in r0.
+  I already knew what `ginormous` was, so I could have done it by hand
+  (er... with _some_ difficulty) but I still decided I'd like to automate
+  Part 2, so I did:
+  
+  * At first I set it up to run the program until some register
+    was larger than 1 million, then performed the sum of its factors
+    via a rather lame `for` loop, but that turned out to be a bad idea
+    (as I really should have known, since I had worked the setup out by hand
+    and could see that the summation doesn't start until
+    there are _two_ numbers larger than 1 million).
+  * Then I waited until register 3 islarger than 1 million,
+    since my program sets up `ginormous` in register 3. That worked great!
+  * However, while I'm pretty sure everyone will have a program that computes
+    the sum of the factors of a ginormous number, it's also quite possible that
+    not everyone would have the target number in register 3,
+    so I reworked it again to quit the virtual machine
+    once it arrives at line 3 (the inner loop) and to find the sum based on
+    the largest number it finds in some register,
+    which might be any different register.
 
 ## Days I completed only after doing the example first
 
