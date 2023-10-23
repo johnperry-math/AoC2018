@@ -68,9 +68,9 @@ here's a table of contents with all the days, in order.
 * [Day 19](#day-19-go-with-the-flow): Go with the Flow
 
   What are the background programs on your time-traveling device up to?!?
-* [Day 20](#day-19-go-with-the-flow): Go with the Flow
+* [Day 20](#day-20-a-regular-map): A Regular Map
 
-  What are the background programs on your time-traveling device up to?!?
+  How big a maze did the elves build while you were busy?
 
 ## Days I completed without doing the example first
 
