@@ -55,13 +55,15 @@ here's a table of contents with all the days, in order.
   Hot chocolate recipe scoring and score-matching.
 * [Day 15](#day-15-beverage-bandits): Beverage Bandits
 
-  Help the elves defeat the goblins, who want to steal the hot chocolate. Here, "defeat" means "kill or be killed".
+  Help the elves defeat the goblins, who want to steal the hot chocolate.
+  Here, "defeat" means "kill or be killed".
 * [Day 16](#day-16-chronal-classification): Chronal Classification
 
   Decipher the time machine's machine code.
 * [Day 17](#day-17-reservoir-research): Reservoir Research
 
-  Which underground cells contain water now? Which cells will contain water much, much later?
+  Which underground cells contain water now?
+  Which cells will contain water much, much later?
 * [Day 18](#day-18-settlers-of-the-north-pole): Settlers of the North Pole
 
   Determine how the clear land, woods, and lumberyards evolve over time.
@@ -71,6 +73,9 @@ here's a table of contents with all the days, in order.
 * [Day 20](#day-20-a-regular-map): A Regular Map
 
   How big a maze did the elves build while you were busy?
+* [Day 21](#day-21-chronal-conversion): Chronal Conversion
+
+  What values take shortest & longest for a program on your device to generate?
 
 ## Days I completed without doing the example first
 
@@ -314,6 +319,30 @@ on my toes with good questions.
 #### Visualization
 
 ![Part2.gif](day18/Images/Part2.gif)
+
+### Day 21: Chronal Conversion
+
+You're traveling through time again. Unfortunately,
+your device only seems to travel backward.
+We need to trick it into underflowing, so that you travel forward.
+
+1. Determine the smallest value for register 0 that will make the program
+   terminate with the fewest instructions executed.
+1. Same, but with the most instructions executed.
+
+#### Tools
+* More analysis of the disassembly, as on [Day 19](#day-19-go-with-the-flow).
+* Using yourself as a Just-In-Time Compiler.
+* It's a cyclical sequence, so perhaps some number theory is involved,
+  but if so I didn't work it out before solving Part 2.
+
+#### Experience
+
+Fun, but not easy. There's no example to work with.
+I'm kind of amazed that I got Part 1 right on the first attempt,
+and while I got Part 2 wrong on the first attempt,
+I actually had the right answer on the screen --
+I just read the wrong line.
 
 ## Days I tried to solve without the example, but had to give in
 

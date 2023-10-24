@@ -1,5 +1,5 @@
-name = "day20"
-description = "2018 Advent of Code in Ada, Day 20"
+name = "day21"
+description = "2018 Advent of Code in Ada, Day 21"
 version = "0.1.0-dev"
 
 authors = ["John Perry"]
@@ -7,7 +7,4 @@ maintainers = ["John Perry <devotus@yahoo.com>"]
 maintainers-logins = ["johnperry-math"]
 licenses = "GPL-3.0-or-later"
 website = ""
-tags = ["advent-of-code", "2018", "ada"]
-
-[[depends-on]]
-libadalang_tools = "^23.0.0"
+tags = ["advent-of-code", "ada", "2018"]
