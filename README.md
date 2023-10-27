@@ -338,7 +338,9 @@ We need to trick it into underflowing, so that you travel forward.
 
 #### Experience
 
-Fun, but not easy. There's no example to work with.
+Example? LOL, what example? 😁
+
+Fun, but not easy.
 I'm kind of amazed that I got Part 1 right on the first attempt,
 and while I got Part 2 wrong on the first attempt,
 I actually had the right answer on the screen --
