@@ -323,6 +323,70 @@ procedure Day21 is
 
    end Part_1;
 
+   function Value_Hash (V : Value) return Ada.Containers.Hash_Type is
+      (Ada.Containers.Hash_Type (V));
+   package Value_Sets is new Ada.Containers.Hashed_Sets (
+      Element_Type => Value,
+      Hash => Value_Hash,
+      Equivalent_Elements => "="
+   );
+
+   function Slower_Part_2 return Value is
+   --  to determine the smallest value that takes the most operations,
+   --  we run the program until the first time the value in register 0 repeats
+   --  on line 28
+   --
+   --  see Part_2 below for more information on why we do this
+
+      Machine : Register := [others => 0];
+
+      Found_Values : Value_Sets.Set;
+
+      Last_Singleton : Value := Value'Last;
+      --  the last value generated will take the most instructions
+      --  neat, huh?
+
+   begin
+
+      IO.Put_Line ("Re-doing part 2, but unoptimized: this will take a while");
+
+      Machine (IP) := 0;
+
+      loop
+
+         Machine := Executor_Fns (Program (Natural (Machine (IP))).O)
+               (Program (Natural (Machine (IP))).P, Machine); --  argument
+
+         Machine (IP) := @ + 1;
+
+         if Machine (IP) = 28 then
+
+            declare
+               Terminating_Value : constant Value
+                  := Machine (Program (Natural (Machine (IP))).P.A);
+            begin
+
+               if Found_Values.Contains (Terminating_Value) then
+                  exit;
+               else
+                  Last_Singleton := Terminating_Value;
+                  Found_Values.Insert (Terminating_Value);
+                  if Natural (Found_Values.Length) rem 1000 = 0 then
+                     IO.Put_Line (
+                        "Found" & Found_Values.Length'Image
+                        & " terminating values"
+                     );
+                  end if;
+               end if;
+
+            end;
+         end if;
+
+      end loop;
+
+      return Last_Singleton;
+   end Slower_Part_2;
+
    Broken_Part_2 : exception;
 
    function Part_2 return Value is
@@ -343,13 +407,6 @@ procedure Day21 is
 
       R1, R3, R4 : Value := 0;
 
-      function Value_Hash (V : Value) return Ada.Containers.Hash_Type is
-         (Ada.Containers.Hash_Type (V));
-      package Value_Sets is new Ada.Containers.Hashed_Sets (
-         Element_Type => Value,
-         Hash => Value_Hash,
-         Equivalent_Elements => "="
-      );
       Found_Values : Value_Sets.Set;
 
       Last_Singleton : Value := Value'Last;
@@ -404,4 +461,6 @@ begin
    Read_Program;
    IO.Put_Line ("Halts after fewest instructions for" & Part_1'Image);
    IO.Put_Line ("Halts after most instructions for" & Part_2'Image);
+   --  uncomment if you're willing to wait a while
+   --  IO.Put_Line ("Again, but slower:" & Slower_Part_2'Image);
 end Day21;

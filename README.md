@@ -344,6 +344,10 @@ and while I got Part 2 wrong on the first attempt,
 I actually had the right answer on the screen --
 I just read the wrong line.
 
+Later I re-implemented Part 2 to compute the same answer,
+without relying on myself as a Just-In-Time Compiler.
+Still works!
+
 ## Days I tried to solve without the example, but had to give in
 
 ### Day 3: No Matter How You Slice It
