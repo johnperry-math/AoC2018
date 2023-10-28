@@ -76,6 +76,9 @@ here's a table of contents with all the days, in order.
 * [Day 21](#day-21-chronal-conversion): Chronal Conversion
 
   What values take shortest & longest for a program on your device to generate?
+* [Day 22](#day-22-mode-maze): Mode Maze
+
+  Can you find your way through a risky cavern, swapping tools along the way?
 
 ## Days I completed without doing the example first
 
@@ -766,3 +769,51 @@ One also needs to check whether freshly dequeued paths are suboptimal.
 
 ##### Part 2 #####
 [<img src="day15/Images/Part_2_optimized.gif">](day15/Images/Part_2_optimized.gif)
+
+### Day 22: Mode Maze
+
+You have to rescue someone from a cavern.
+Each cell of the cavern has a feature (rocky, wet, narrow).
+You need different tools to make it through different features.
+
+1. Determine the risk factor between you and the target.
+1. Find the shortest route to the target.
+
+#### Tools
+
+Here I think it's better to say which tools I learned
+were either _unavailable_ or _unwise_.
+
+1. `Ada.Containers.Unbounded_Priority_Queues` appears to be
+   a very, very bad idea, unless you have a small number of things to put in it.
+   If I hadn't given up and switched to synchronized queues,
+   I might never have finished.
+1. `Ada.Containers.Unbounded_Synchronized_Queues` is a limited type,
+   and therefore you cannot place it in a vector.
+   I suppose someone had a reason for that, but it illustrates how
+   Ada's out-of-the-box support for queues is really, really bad
+   for the average user.
+
+#### Experience
+
+I like the problem, and Part 1 was quick and easy.
+Part 2, however, took a lot longer than it should have. In no particular order:
+* The problem with priority queues mentioned above.
+  I wasted a lot of time thinking
+  I had neglected to prune enough possibilities.
+* Despite consciously thinking I _had better be careful_
+  while initializing out the `Position_Delta`'s,
+  I still managed to put `(1, 0)` for left / west instead of `(-1, 0)`.
+* I didn't misread a rule this time so much as _misunderstand_ it:
+
+      You can change your currently equipped tool or put both away
+      **if your new equipment would be valid for your current region.**
+      _[emphasis added]_
+
+  I didn't realize that the new equipment
+  might not be valid for the current region,
+  so eventually I had to peruse other people's solutions.
+  I could not for the life of me figure out why
+  they had slightly different optimal states for some locations,
+  even after studying their code closely (they did it quite a bit differenlty),
+  but after reading and re-reading the rules I finally realized my mistake.
