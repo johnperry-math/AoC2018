@@ -702,18 +702,24 @@ Once they spread out, you need to be in the right place to be teleported.
 
 ### Tools
 
-1. An algorithm I found online. Don't know if it has a name.
+1. An algorithm I found online. Don't know if it has a name. See below.
 1. A lot of patience.
 1. The ability to surrender.
 
 ### Experience
 
+<span style="font-size: 16ex;">:scream:</span>
+
+Yeah, it was that bad.
+Two omens warned me that Part 2 would be a nightmare.
+1. It's a 3-dimensional puzzle, and those always give me fits.
+1. Part 1 was trivial.
+
 I had a brilliant idea for an algorithm that looked like a real winner...
-until I remembered that balls in Manhattan distance are not in fact cubes.
+until I remembered that balls in Manhattan distance are not in fact cubes,
+but octahedra.
 
-   (╯°□°）╯︵ ┻━┻
-
-### :scream:
+    (╯°□°）╯︵ ┻━┻
 
 After spending another couple of hours on it, I still had no idea how to do it,
 so I gave up and read through the discussion
@@ -721,27 +727,27 @@ so I gave up and read through the discussion
 
 ...and that _still_ didn't help.
 Pretty much every solution given used mathematics I've never heard of,
-or else am very unfamiliar with.
+or else am very rusty on. (More on that below.)
 
-## :scream: :scream:
+<span style="font-size: 4ex;">:scream:</span>
 
-Worse, I noticed a lot of comments on most solutions saying _they didn't work_.
+Worse, most solutions had comments saying _they didn't work_ with all inputs.
 
-# :scream: :scream: :scream:
+<span style="font-size: 8ex;">:scream: :scream: :scream:</span>
 
-So I gave up and implemented in Ada the [Scott Seligman's solution](https://www.reddit.com/r/adventofcode/comments/a8s17l/2018_day_23_solutions/ecddus1/),
+So I gave up and implemented in Ada [Scott Seligman's solution](https://www.reddit.com/r/adventofcode/comments/a8s17l/2018_day_23_solutions/ecddus1/),
 the only one whose explanation both made _general_ sense
 and seemed to work for others, especially after he updated it
 to account for edge cases that people pointed out to him.
 In addition to commenting it _very_ thoroughly to help me make sense of it,
-I changed the implementation slightly after noticiing
+I changed the implementation slightly after noticing
 several suboptimal operations that may be relics from various revisions.
-I did verify that it works.
+I did verify that it still works with my input.
 
-I'm still don't understand _every_ detail of how it works,
+I still don't understand _every_ detail of how it works,
 nor am I even confident it works on every possible input;
-at one point he notes a fudge factor that is load-bearing and, I suspect,
-is tuned to the sorts of inputs the contest is providing.
+at one point he notes a load-bearing fudge factor that I suspect
+is accidentally tuned to the sorts of inputs the contest provided.
 I hope I'm wrong, because otherwise it's a beautiful solution.
 
 While I understood several solutions indicated by others,
