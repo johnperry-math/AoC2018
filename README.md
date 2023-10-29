@@ -79,6 +79,10 @@ here's a table of contents with all the days, in order.
 * [Day 22](#day-22-mode-maze): Mode Maze
 
   Can you find your way through a risky cavern, swapping tools along the way?
+* [Day 23](#day-23-experimental-emergency-teleportation):
+  Experimental Emergency Teleportation
+
+  What position with the most nanobots in range is closest to you?
 
 ## Days I completed without doing the example first
 
@@ -685,6 +689,69 @@ Then I realized that a slight tweaking of the second approach
 should in fact still work, and since I rather like that approach better,
 I went ahead and made the tweak. Unfortunately, it didn't work,
 so I abandoned it again.
+
+### Day 23: Experimental Emergency Teleportation
+
+To teleport the reindeer out of the cavern, you release some nanobots.
+Once they spread out, you need to be in the right place to be teleported.
+
+1. For the nanobot with the largest reach, how many nanobots are in range,
+   **including itself**?
+2. Which point in a region reachable by the most nanobots
+   is closest to the origin?
+
+### Tools
+
+1. An algorithm I found online. Don't know if it has a name.
+1. A lot of patience.
+1. The ability to surrender.
+
+### Experience
+
+I had a brilliant idea for an algorithm that looked like a real winner...
+until I remembered that balls in Manhattan distance are not in fact cubes.
+
+   (╯°□°）╯︵ ┻━┻
+
+### :scream:
+
+After spending another couple of hours on it, I still had no idea how to do it,
+so I gave up and read through the discussion
+[on the day's solutions](https://www.reddit.com/r/adventofcode/comments/a8s17l/2018_day_23_solutions/).
+
+...and that _still_ didn't help.
+Pretty much every solution given used mathematics I've never heard of,
+or else am very unfamiliar with.
+
+## :scream: :scream:
+
+Worse, I noticed a lot of comments on most solutions saying _they didn't work_.
+
+# :scream: :scream: :scream:
+
+So I gave up and implemented in Ada the [Scott Seligman's solution](https://www.reddit.com/r/adventofcode/comments/a8s17l/2018_day_23_solutions/ecddus1/),
+the only one whose explanation both made _general_ sense
+and seemed to work for others, especially after he updated it
+to account for edge cases that people pointed out to him.
+In addition to commenting it _very_ thoroughly to help me make sense of it,
+I changed the implementation slightly after noticiing
+several suboptimal operations that may be relics from various revisions.
+I did verify that it works.
+
+I'm still don't understand _every_ detail of how it works,
+nor am I even confident it works on every possible input;
+at one point he notes a fudge factor that is load-bearing and, I suspect,
+is tuned to the sorts of inputs the contest is providing.
+I hope I'm wrong, because otherwise it's a beautiful solution.
+
+While I understood several solutions indicated by others,
+in particular the octotree solution
+-- which also seems to be
+[the puzzle master's approach](https://www.reddit.com/r/adventofcode/comments/aa9uvg/day_23_aoc_creators_logic/ecrftas/)
+-- I don't recall seeing an implementation that I could follow,
+and I wasn't about to try and implement one in the raw
+without a _good_ example.
+Perhaps I will try that one day.
 
 ## Days I completed only after doing the example first
 
