@@ -84,7 +84,10 @@ here's a table of contents with all the days, in order.
 
   What position with the most nanobots in range is closest to you?
 
-* Day 24
+* [Day 24](#day-24-immune-simulator-20xx): Immune Simulator 20XX
+
+  What is the minimum immune system boost necessary for a reindeer to fight off
+  an infection?
 
 ## Days I completed without doing the example first
 
