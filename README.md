@@ -84,6 +84,8 @@ here's a table of contents with all the days, in order.
 
   What position with the most nanobots in range is closest to you?
 
+* Day 24
+
 ## Days I completed without doing the example first
 
 ### Day 1: Chronal Calibration
@@ -890,3 +892,43 @@ Part 2, however, took a lot longer than it should have. In no particular order:
   they had slightly different optimal states for some locations,
   even after studying their code closely (they did it quite a bit differenlty),
   but after reading and re-reading the rules I finally realized my mistake.
+
+### Day 24: Immune Simulator 20XX
+
+The poor reindeer has an infection! We need to determine how weak it is,
+and how to help it fight the infection off.
+
+1. After a battle between the immune system and the infection,
+   how many armies remain? (Sadly, they'll be infection armies...)
+2. What is the minimum boost to the immune system needed for it to win?
+
+#### Tools
+
+* Ada's generic array sorting, which I'm still not very used to
+* Binary search _a la_ Method of Bisection
+
+#### Experience
+
+As with many others who completed this puzzle, I spent more time writing
+data structures and logic to implement the targeting and attack orders
+than with anything else.
+Even after getting the example to work, I could not solve Part 1,
+so I compared to the output of posted solution, and found one of my bugs
+that way.
+However, I still had a different answer.
+**After wasting over an hour** trying to determine
+why my program was getting a different answer, I tried my answer
+**and it worked!**
+In other words, the posted solution was wrong -- which I was quite sure of
+at that point, as I could even tell which rule is was not implementing.
+
+Bugs I committed (the latter two pretty common, from what I read):
+* The logic of `Still_Standing` first used `for all` instead of `for some`.
+* Originally I sorted each army twice in each round: when targeting, then again
+  when attacking. Trouble was, I wasn't using references to refer to them,
+  but array indices! So the indices no longer pointed to the correct places.
+  That led to the current approach, though in retrospect perhaps I should have
+  used references; i.e., `aliased` and `'Access`.
+* In Part 2 it's worth remembering the correct result, since you may move from
+  the correct boost for the immune system to win to the next-lower boost, which
+  the infection wins, and _that's the wrong time to count armies!_

@@ -1,0 +1,10 @@
+name = "day24"
+description = "2018 Advent of Code in Ada, Day 24"
+version = "0.1.0-dev"
+
+authors = ["John Perry"]
+maintainers = ["John Perry <devotus@yahoo.com>"]
+maintainers-logins = ["johnperry-math"]
+licenses = "MIT OR Apache-2.0 WITH LLVM-exception"
+website = ""
+tags = ["advent-of-code", "ada", "2018"]
