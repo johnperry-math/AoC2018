@@ -89,6 +89,13 @@ here's a table of contents with all the days, in order.
   What is the minimum immune system boost necessary for a reindeer to fight off
   an infection?
 
+* [Day 25](#day-25-four-dimensional-adventure): Four-Dimensional Adventure
+
+  Build a time-traveling portal to the elves you rescued on day 15, so that
+  they can send some hot chocolate for your suffering reindeer.
+  Report the number of constellations in the accompanying universe of...
+  well, not "stars", but I'm not sure what else to call them.
+
 ## Days I completed without doing the example first
 
 ### Day 1: Chronal Calibration
@@ -935,3 +942,21 @@ Bugs I committed (the latter two pretty common, from what I read):
 * In Part 2 it's worth remembering the correct result, since you may move from
   the correct boost for the immune system to win to the next-lower boost, which
   the infection wins, and _that's the wrong time to count armies!_
+
+### Day 25: Four-Dimensional Adventure
+
+The reindeer you saved twice so far is still not saved. He's getting worse!
+You need some hot chocolate from those elves you saved from goblins
+back on day 15.
+
+1. Build a time-traveling portal to those elves,
+   so you can get the hot chocolate.
+1. It's a secret.
+
+#### Tools
+
+* Breadth-first search.
+
+#### Experience
+
+Fun and easy. A welcome relief after the previous few days!
