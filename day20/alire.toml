@@ -9,5 +9,3 @@ licenses = "GPL-3.0-or-later"
 website = ""
 tags = ["advent-of-code", "2018", "ada"]
 
-[[depends-on]]
-libadalang_tools = "^23.0.0"

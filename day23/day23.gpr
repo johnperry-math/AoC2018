@@ -7,6 +7,8 @@ project Day23 is
    for Exec_Dir use "bin";
    for Main use ("day23.adb");
 
+   -- for Response_File_Switches use ("-lglpk");
+
    package Compiler is
       for Default_Switches ("Ada") use Day23_Config.Ada_Compiler_Switches;
    end Compiler;
@@ -14,6 +16,10 @@ project Day23 is
    package Binder is
       for Switches ("Ada") use ("-Es"); --  Symbolic traceback
    end Binder;
+
+   package Linker is
+      for Default_Switches ("Ada") use ("-lglpk");
+   end Linker;
 
    package Install is
       for Artifacts (".") use ("share");
