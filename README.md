@@ -771,6 +771,53 @@ and I wasn't about to try and implement one in the raw
 without a _good_ example.
 Perhaps I will try that one day.
 
+### Day 23, Take 2
+
+It's the same story as [Day 23](#day-23-experimental-emergency-teleportation),
+but the solution is different.
+
+#### Tools
+
+* a very thin, automatically-generated binding for the
+  [Gnu Linear Programming Kit](https://www.gnu.org/software/glpk/).
+
+#### Experience / Explanation
+
+I wasn't satisfied with resorting to an algorithm I didn't quite udnerstand,
+so I added an implementation of an algorithm I **do** understand,
+in fact, which I devised myself after thinking about the problem a little more:
+intersections of convex sets.
+This can be solved by linear programming.
+
+The idea is that a nanobot's neighborhood is an octohedron.
+At first I thought I should be able to break it into 8 octohedra,
+but it quickly became clear that that was at best difficult,
+and at worst impossible. (It looks as if the worst case is reality.)
+
+I then realized I didn't have to use octohedra as search spaces;
+I could use cubes, instead, and count the number of nanobots
+that intersects a cube using a system of linear inequalities
+based on the planes that define the faces of the octohedra and the cubes.
+
+After a little more reasoning, I realized that I could simplify it further
+by using a cube's inequalities as constraints on the values of the variables
+in a program defined by an octohedron's inequalities.
+
+Now I just needed a way to solve a linear program.
+I thought of writing a program to do that myself, but then I realized that
+I should be able to create a thin binding to the Gnu Linear Programming Kit,
+and it could do the work for me.
+It would of course attack a more general problem -- in principle,
+it should be more efficient to determine a symbolic form of the program,
+perform symbolic pivoting by hand, and come up with a general formula
+for whether a octohedron intersects a cube's --
+but I've made enough mistakes to know better than to try this without
+at least a proof of concept.
+
+It worked! It's slower than the other algorithm,
+but I understand this one better, and I'm reasonably sure a little work
+would obtain an solid optimization.
+
 ## Days I completed only after doing the example first
 
 ### Day 15: Beverage Bandits
