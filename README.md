@@ -83,6 +83,7 @@ here's a table of contents with all the days, in order.
   Experimental Emergency Teleportation
 
   What position with the most nanobots in range is closest to you?
+* [Day 23, Take 2](#day-23-take-2): This Time, With a Linear Program
 
 * [Day 24](#day-24-immune-simulator-20xx): Immune Simulator 20XX
 
